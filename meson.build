@@ -6,17 +6,14 @@ cpplib = shared_library('swig_vector',
                         install_dir: 'lib/')
 
 swig = find_program('swig')
-gen_swig = generator(swig,
-                     #depfile: '@BASENAME@_wrap.d',
-                     output: '@BASENAME@_wrap.cxx',
-                     arguments: ['-c++', '-python',
-                                '-MMD', '-o', '@OUTPUT@',
-                                '@INPUT@'])
+
 swig_src = '../swig_vector.i'
 
 inc_dir = include_directories('.')
 subdir('python2')
 subdir('python3')
 
-install_data('swig_vector.py', install_dir:'lib/python2.7/site-packages/swig_vector/', rename: '__init__.py')
-install_data('swig_vector.py', install_dir:'lib/python3.6/site-packages/swig_vector/', rename: '__init__.py')
+add_test_setup('py2', exe_wrapper: 'python2', env: 'PYTHONPATH=./python2')
+add_test_setup('py3', exe_wrapper: 'python3', env: 'PYTHONPATH=./python3')
+test_vector = find_program('test_vector.py')
+test('test_vector', test_vector)

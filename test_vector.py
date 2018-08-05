@@ -6,7 +6,7 @@ import numpy as np
 def main():
   my_array = np.array([1, 2, 3])
   swig_vector.printIntVector(my_array)
-  return 0
+  return True
 
 if __name__ == "__main__":
   exit(not main())
